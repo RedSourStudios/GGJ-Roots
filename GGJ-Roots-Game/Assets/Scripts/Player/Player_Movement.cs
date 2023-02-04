@@ -18,6 +18,9 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private float extraHeight = 0.1f;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private bool isRootWall;
+    [SerializeField] private bool isTouchingWall;
 
     void Start()
     {
@@ -31,6 +34,8 @@ public class Player_Movement : MonoBehaviour
         GroundCheck();
         Jump();
         Flip(); //girar 180° no eixo Y
+
+        WallRoot();
     }
 
     void Move()
@@ -109,4 +114,24 @@ public class Player_Movement : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }
+
+    #region WallRoot
+
+    private bool IsRoot() 
+    {
+        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayerMask);
+    }
+
+    void WallRoot() {
+        if(IsRoot() && !isGrounded()) { //horizontal != 0f
+            Debug.Log("Grudou");
+            isRootWall = true;
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+        }
+        else {
+            isRootWall = false;
+        }
+    }
+
+    #endregion
 }
