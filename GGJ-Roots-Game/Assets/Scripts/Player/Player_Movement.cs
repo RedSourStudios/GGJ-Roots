@@ -7,6 +7,8 @@ public class Player_Movement : MonoBehaviour
     private Rigidbody2D rb;
     private CapsuleCollider2D capsule;
     private float movement;
+    private Vector2 localScaleValue;
+    [SerializeField] private float gravity;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float cutJumpHeight;
@@ -21,11 +23,16 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private Transform wallCheck;
     [SerializeField] private bool isRootWall;
     [SerializeField] private bool isTouchingWall;
+    [SerializeField] private WallCheck _WallCheck;
 
     void Start()
     {
+        isRootWall = false;
+
+        localScaleValue = transform.localScale;
         capsule = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = gravity;
     }
 
     void Update()
@@ -35,13 +42,17 @@ public class Player_Movement : MonoBehaviour
         Jump();
         Flip(); //girar 180° no eixo Y
 
-        WallRoot();
+        if (Input.GetKeyDown(KeyCode.J))
+            WallRoot();
+
+        if (Input.GetKeyDown(KeyCode.K))
+            RootTeleport();
     }
 
     void Move()
     {
         movement = Input.GetAxisRaw("Horizontal"); //Não utilizei o novo sistema de input
-        if(movement > 0 || movement < 0) {
+        if((movement > 0 || movement < 0) && !isRootWall) {
             rb.velocity = new Vector2(movement * speed, rb.velocity.y);
         }
         
@@ -72,6 +83,14 @@ public class Player_Movement : MonoBehaviour
             if(rb.velocity.y > 0) {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * cutJumpHeight);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isRootWall)
+        {
+            jumpRemember = 100;
+            groundRemember = 100;
+            hasJumps = 1;
+            WallRoot();
         }
 
         if((groundRemember > 0) && (jumpRemember > 0) && hasJumps > 0) { //pulo
@@ -108,30 +127,65 @@ public class Player_Movement : MonoBehaviour
 
     void Flip() {
         if(movement > 0f) {
-            transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            transform.localScale = new Vector2(localScaleValue.x, localScaleValue.y);
+            //transform.eulerAngles = new Vector3(0f, 0f, 0f);
         }
         if(movement < 0f) {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            transform.localScale = new Vector2(-localScaleValue.x, localScaleValue.y);
+            //transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }
 
     #region WallRoot
 
-    private bool IsRoot() 
+    /*private bool IsRoot() 
     {
-        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayerMask);
-    }
+        return _WallCheck.isTouchingWall;
+        //return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayerMask);
+    }*/
 
     void WallRoot() {
-        if(IsRoot() && !isGrounded()) { //horizontal != 0f
+        if (isRootWall)
+        {
+            isRootWall = false;
+            rb.gravityScale = gravity;
+        }
+        else if(_WallCheck.isTouchingWall && !isGrounded()) { //horizontal != 0f
             Debug.Log("Grudou");
             isRootWall = true;
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
-        }
-        else {
-            isRootWall = false;
+            rb.gravityScale = 0f;
+            rb.velocity = Vector2.zero;
+
         }
     }
 
     #endregion
+
+    #region RootTeleport
+
+    private void RootTeleport()
+    {
+        Vector2 movementVect = new Vector2(Input.GetAxisRaw("Horizontal"), 
+            Input.GetAxisRaw("Vertical"));
+        
+        if (Mathf.Abs(movementVect.normalized.x) <= -movementVect.normalized.y)
+        {
+            /*RaycastHit2D[] forwardCast = Physics2D.RaycastAll(transform.position, 
+                movementVect.normalized, 15f, groundLayerMask);*/
+            RaycastHit2D[] backwardsCast = Physics2D.RaycastAll(
+                new Vector2(transform.position.x, transform.position.y - 15f), 
+                Vector2.up, 15f, groundLayerMask);
+
+            transform.position = backwardsCast[backwardsCast.Length - 1].point;
+        }
+        
+        
+    }
+
+    #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+    }
 }
