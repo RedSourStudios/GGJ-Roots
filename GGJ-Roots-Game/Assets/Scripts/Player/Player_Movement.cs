@@ -131,11 +131,11 @@ public class Player_Movement : MonoBehaviour
 
     void Flip() {
         if(movement > 0f) {
-            transform.localScale = new Vector2(localScaleValue.x, localScaleValue.y);
+            transform.localScale = new Vector2(-localScaleValue.x, localScaleValue.y);
             //transform.eulerAngles = new Vector3(0f, 0f, 0f);
         }
         if(movement < 0f) {
-            transform.localScale = new Vector2(-localScaleValue.x, localScaleValue.y);
+            transform.localScale = new Vector2(localScaleValue.x, localScaleValue.y);
             //transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }

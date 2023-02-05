@@ -16,6 +16,7 @@ public class CameraObject : MonoBehaviour
     void Update()
     {   
         aux.y = playerTransform.position.y;
+        aux.x = playerTransform.position.x;
         transform.position = aux;
     }
 }

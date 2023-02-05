@@ -25,7 +25,7 @@ public class SceneManagement : MonoBehaviour
     }
 
     public void Level1Begin() {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainLevel");
         PlayerPrefs.SetInt("currentHealth", 1);
     }
 }
