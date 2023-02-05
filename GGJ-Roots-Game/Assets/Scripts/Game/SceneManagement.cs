@@ -19,7 +19,6 @@ public class SceneManagement : MonoBehaviour
 
     public void LevelMenu() {
         // pause.pausekey = !pause.pausekey;
-        // Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         // AudioController.instance.MenuMusic();
         
@@ -27,5 +26,6 @@ public class SceneManagement : MonoBehaviour
 
     public void Level1Begin() {
         UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+        PlayerPrefs.SetInt("currentHealth", 1);
     }
 }

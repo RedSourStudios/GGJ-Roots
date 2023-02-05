@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 {
     //PAUSE
     public GameObject pausePanel;
+    public GameObject deathPanel;
     public bool notpause = true;
     public bool pausekey;
 
@@ -57,5 +58,9 @@ public class UIController : MonoBehaviour
 
     public void QuitButton() {
         Application.Quit();
+    }
+
+    public void DeathScreen() {
+        deathPanel.SetActive(true);
     }
 }

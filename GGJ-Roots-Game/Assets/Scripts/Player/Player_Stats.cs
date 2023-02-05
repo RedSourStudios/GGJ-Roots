@@ -6,10 +6,18 @@ public class Player_Stats : MonoBehaviour
 {
     [SerializeField] private int totalHealth;
     [SerializeField] private int currentHealth;
+    private CapsuleCollider2D capsule;
+    private GameObject uiController;
+
+    void Awake() {
+        PlayerPrefs.SetInt("currentHealth", totalHealth); //temos apenas uma fase então não tem problema
+    }
 
     void Start()
     {
+        capsule = GetComponent<CapsuleCollider2D>();
         currentHealth = PlayerPrefs.GetInt("currentHealth");
+        uiController = GameObject.FindGameObjectWithTag("UIController");
     }
 
     void Update()
@@ -17,11 +25,24 @@ public class Player_Stats : MonoBehaviour
         
     }
 
-    void TakeDamage(int damage) {
+    public void TakeDamage(int damage) {
         currentHealth -= damage;
         PlayerPrefs.SetInt("currentHealth", currentHealth);
-        //som
+        if(currentHealth > 0) {
+            //som
+            //animação
+            //invencibilidade
+        }
+        else {
+            Death();
+        }
+    }
+
+    public void Death() {
         //animação
-        //invencibilidade
+        //som
+        capsule.enabled = false;
+        Destroy(gameObject, 1f); //tempo da animação
+        uiController.GetComponent<UIController>().DeathScreen();
     }
 }
