@@ -8,6 +8,7 @@ public class Player_Movement : MonoBehaviour
     private CapsuleCollider2D capsule;
     private float movement;
     private Vector2 localScaleValue;
+    [SerializeField] private Vector2 lastPosition;
     [SerializeField] private float gravity;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
@@ -19,16 +20,18 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private int hasJumps;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask wallLayerMask;
+    [SerializeField] private LayerMask spikeLayer;
     [SerializeField] private float extraHeight = 0.1f;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private bool isRootWall;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private WallCheck _WallCheck;
+    [SerializeField] private Player_Stats _Player_Stats;
 
     void Start()
     {
         isRootWall = false;
-
+        lastPosition = transform.position;
         localScaleValue = transform.localScale;
         capsule = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -49,6 +52,16 @@ public class Player_Movement : MonoBehaviour
             RootTeleport();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.layer);
+        if (collision.gameObject.layer == 8)
+        {
+            _Player_Stats.TakeDamage(1);
+            transform.position = lastPosition;
+        }
+    }
+
     void Move()
     {
         movement = Input.GetAxisRaw("Horizontal"); //Não utilizei o novo sistema de input
@@ -67,6 +80,11 @@ public class Player_Movement : MonoBehaviour
         jumpRemember -= Time.deltaTime;
 
         if(Input.GetKeyDown(KeyCode.Space)) {
+
+            if (isGrounded() && !isRootWall)
+            {
+                lastPosition = transform.position;
+            }
             
             jumpRemember = jumpRememberTime;
             
