@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5078770266469144928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.216, y: 0.119, z: 0}
+  m_LocalPosition: {x: -0.216, y: 0.119, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,7 +86,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5078770267855027910}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.216, y: -0.36, z: 0}
+  m_LocalPosition: {x: -0.216, y: -0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5078770268059725680}
   - component: {fileID: 5078770268059725687}
   - component: {fileID: 5078770268059725683}
-  - component: {fileID: -1463010538263191679}
+  - component: {fileID: 7240813550071576875}
   m_Layer: 0
   m_Name: Enemy walker
   m_TagString: Untagged
@@ -123,7 +123,7 @@ Transform:
   m_GameObject: {fileID: 5078770268059725686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.49, y: 1.14, z: 0.006734794}
-  m_LocalScale: {x: 4.8272, y: 4.8272, z: 4.8272}
+  m_LocalScale: {x: -4.8272, y: 4.8272, z: 4.8272}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5078770266469144929}
@@ -173,7 +173,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 17fa84703485d314b8d6b5216987d4b1, type: 3}
+  m_Sprite: {fileID: -127601689, guid: 2eb8c5e9aca2931ebad7d9b6765766d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -243,7 +243,7 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!95 &-1463010538263191679
+--- !u!95 &7240813550071576875
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -253,7 +253,7 @@ Animator:
   m_GameObject: {fileID: 5078770268059725686}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b6b8d3fee9b05e2b78783e2cf0704dd3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
