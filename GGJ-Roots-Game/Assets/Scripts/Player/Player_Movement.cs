@@ -177,8 +177,13 @@ public class Player_Movement : MonoBehaviour
             /*RaycastHit2D[] forwardCast = Physics2D.RaycastAll(transform.position, 
                 movementVect.normalized, 15f, groundLayerMask);*/
             RaycastHit2D[] backwardsCast = Physics2D.RaycastAll(
-                new Vector2(transform.position.x, transform.position.y - 15f), 
+                new Vector2(transform.position.x, transform.position.y - 5f), 
                 Vector2.up, 15f, groundLayerMask);
+
+            foreach (RaycastHit2D cast in backwardsCast)
+            {
+                Debug.Log(cast.point);
+            }
 
             transform.position = backwardsCast[backwardsCast.Length - 1].point;
         }
@@ -191,5 +196,7 @@ public class Player_Movement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, 
+            new Vector2(transform.position.x, transform.position.y - 5f));
     }
 }
